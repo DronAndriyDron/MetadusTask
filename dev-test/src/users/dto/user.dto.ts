@@ -3,7 +3,7 @@ import {
   Matches,
   MaxLength,
   IsString,
-  MinLength,
+  MinLength, IsNotEmpty,
 } from 'class-validator';
 import {
   VALIDATE_PASSWORD,
@@ -12,7 +12,9 @@ import {
 } from '../../common/constants/constants';
 
 export class RegisterDto {
+
   @IsEmail()
+  @IsNotEmpty()
   @Matches(VALIDATE_USER_NAME)
   @Matches(ADDITIONAL_VALIDATE_USER_NAME)
   @MaxLength(64)
@@ -21,6 +23,7 @@ export class RegisterDto {
   @IsString()
   @MinLength(8)
   @MaxLength(64)
+  @IsNotEmpty()
   @Matches(VALIDATE_PASSWORD)
   password: string;
 }
@@ -29,18 +32,21 @@ export class ChangePasswordDto {
   @IsString()
   @MinLength(8)
   @MaxLength(64)
+  @IsNotEmpty()
   @Matches(VALIDATE_PASSWORD)
   currentPassword: string;
 
   @IsString()
   @MinLength(8)
   @MaxLength(64)
+  @IsNotEmpty()
   @Matches(VALIDATE_PASSWORD)
   newPassword: string;
 
   @IsString()
   @MinLength(8)
   @MaxLength(64)
+  @IsNotEmpty()
   @Matches(VALIDATE_PASSWORD)
   confirmPassword: string;
 }
