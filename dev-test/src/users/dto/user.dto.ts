@@ -9,7 +9,7 @@ import {
   VALIDATE_PASSWORD,
   VALIDATE_USER_NAME,
   ADDITIONAL_VALIDATE_USER_NAME,
-} from '../../common/Constants/constants';
+} from '../../common/constants/constants';
 
 export class RegisterDto {
   @IsEmail()

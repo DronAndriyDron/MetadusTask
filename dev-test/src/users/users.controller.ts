@@ -9,8 +9,8 @@ import {
 import { AuthenticatedGuard } from 'src/auth/guard/authenticated.guard';
 import { LocalAuthGuard } from 'src/auth/guard/local.auth.guard';
 import { UsersService } from './users.service';
-import { RegisterDto } from './DTO/user.dto';
-import { ChangePasswordDto } from './DTO/user.dto';
+import { RegisterDto } from './dto/user.dto';
+import { ChangePasswordDto } from './dto/user.dto';
 
 @Controller('users')
 export class UsersController {

@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './Models/users.model';
+import { User } from './models/users.model';
 import * as bcrypt from 'bcrypt';
-import { ChangePasswordDto } from './DTO/user.dto';
+import { ChangePasswordDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
