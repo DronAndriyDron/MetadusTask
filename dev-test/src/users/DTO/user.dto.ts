@@ -1,40 +1,46 @@
-import {IsEmail, Matches, Length, MaxLength, IsNotEmpty, IsString, MinLength} from 'class-validator';
+import {
+  IsEmail,
+  Matches,
+  MaxLength,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import {
+  VALIDATE_PASSWORD,
+  VALIDATE_USER_NAME,
+  ADDITIONAL_VALIDATE_USER_NAME,
+} from '../../common/Constants/constants';
 
-export class ReGisterDto {
+export class RegisterDto {
+  @IsEmail()
+  @Matches(VALIDATE_USER_NAME)
+  @Matches(ADDITIONAL_VALIDATE_USER_NAME)
+  @MaxLength(64)
+  username: string;
 
-    @IsEmail()
-    @Matches(/^[^`'"]*$/)
-    @Matches(/^[\w.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)
-    @MaxLength(64)
-    username: string
-
-    @IsString()
-    @MinLength(8)
-    @MaxLength(64)
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
-    password: string
-
+  @IsString()
+  @MinLength(8)
+  @MaxLength(64)
+  @Matches(VALIDATE_PASSWORD)
+  password: string;
 }
 
 export class ChangePasswordDto {
-    @IsString()
-    @MinLength(8)
-    @MaxLength(64)
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
-    currentPassword :string
+  @IsString()
+  @MinLength(8)
+  @MaxLength(64)
+  @Matches(VALIDATE_PASSWORD)
+  currentPassword: string;
 
-    @IsString()
-    @MinLength(8)
-    @MaxLength(64)
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
-    newPassword:string
+  @IsString()
+  @MinLength(8)
+  @MaxLength(64)
+  @Matches(VALIDATE_PASSWORD)
+  newPassword: string;
 
-    @IsString()
-    @MinLength(8)
-    @MaxLength(64)
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)
-    confirmPassword:string
-
-    @IsEmail()
-    username:string
+  @IsString()
+  @MinLength(8)
+  @MaxLength(64)
+  @Matches(VALIDATE_PASSWORD)
+  confirmPassword: string;
 }

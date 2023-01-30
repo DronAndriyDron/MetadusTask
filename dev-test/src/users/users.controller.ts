@@ -1,64 +1,61 @@
 import {
-    Body,
-    Controller,
-    Get,
-    Post,
-    UseGuards,
-    Request, HttpException, HttpStatus,
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
-
-import * as bcrypt from 'bcrypt';
-import {AuthenticatedGuard} from 'src/auth/guard/authenticated.guard';
-import {LocalAuthGuard} from 'src/auth/guard/local.auth.guard';
-import {UsersService} from './users.service';
-import {ReGisterDto} from "./DTO/user.dto";
-import {ChangePasswordDto} from "./DTO/user.dto";
+import { AuthenticatedGuard } from 'src/auth/guard/authenticated.guard';
+import { LocalAuthGuard } from 'src/auth/guard/local.auth.guard';
+import { UsersService } from './users.service';
+import { RegisterDto } from './DTO/user.dto';
+import { ChangePasswordDto } from './DTO/user.dto';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {
-    }
+  constructor(private readonly usersService: UsersService) {}
 
-    @Post('/register')
-    async сreateUser(
-        @Body() dto: ReGisterDto
-    ) {
-
-        const result = await this.usersService.insertUser(
-            dto.username,
-            dto.password,
-        );
-        return {
-            message: 'User successfully registered',
-            userId: result.id,
-            userName: result.username
-        };
-    }
-
-
-    @UseGuards(LocalAuthGuard)
-    @Post('/login')
-    login(@Request() req): any {
-        return {
-            User: req.user,
-            msg: 'User logged in'
-        };
+  @Post('/register')
+  async сreateUser(@Body() dto: RegisterDto) {
+    const result = await this.usersService.insertUser(
+      dto.username,
+      dto.password,
+    );
+    return {
+      message: 'User successfully registered',
+      userId: result.id,
+      userName: result.username,
     };
+  }
 
-
-    @UseGuards(AuthenticatedGuard)
-    @Post('/change-password')
-    async changePassword(@Request() req,@Body() changePasswordDto: ChangePasswordDto){
-
-        const response = await this.usersService.changeUserPassword(changePasswordDto)
-
-        return response;
+  @UseGuards(LocalAuthGuard)
+  @Post('/login')
+  login(@Request() req): any {
+    return {
+      User: req.user,
+      msg: 'You logged in',
     };
+  }
 
+  @UseGuards(AuthenticatedGuard)
+  @Post('/change-password')
+  async changePassword(
+    @Request() req,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    const username = req.user.userName;
+    const response = await this.usersService.changeUserPassword(
+      changePasswordDto,
+      username,
+    );
+    return response;
+  }
 
-    @Get('/logout')
-    logout(@Request() req): any {
-        req.session.destroy()
-        return {message: 'Logout user'}
-    }
+  @UseGuards(AuthenticatedGuard)
+  @Get('/logout')
+  logout(@Request() req): any {
+    req.session.destroy();
+    return { message: 'Logout user' };
+  }
 }
