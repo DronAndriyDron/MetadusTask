@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './models/users.model';
 import * as bcrypt from 'bcrypt';
-import { ChangePasswordDto } from './dto/user.dto';
+import {ChangePasswordDto, RegisterDto} from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -32,6 +32,28 @@ export class UsersService {
     return user;
   }
 
+  async loginUser(dto:RegisterDto)
+  {
+     const user = await this.userModel.findOne({ username:dto.username });
+     if(!user||user ==null)
+     {
+       throw new HttpException("User not exist",HttpStatus.NOT_FOUND)
+     }
+
+    const isValid = await bcrypt.compare(dto.password, user.password);
+    if (!isValid) {
+      throw new HttpException(
+          'incorrect password',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    return {
+      _id:user._id,
+      username:user.username
+    }
+
+  }
   async changeUserPassword(
     changePasswordDto: ChangePasswordDto,
     username: string,

@@ -20,6 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/secure-session": "^6.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/mongoose": "^9.2.1",
@@ -33,7 +35,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "fastify": "^4.12.0",
+    "fastify": "^3.29.4",
+    "fastify-passport": "^0.6.0",
     "loginradius-sdk": "^11.5.0",
     "mongoose": "^6.9.0",
     "passport": "^0.6.0",
