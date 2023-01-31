@@ -4,15 +4,16 @@ import {
   Get,
   Post,
   UseGuards,
-  Request, Res,
+  Request,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RegisterDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/user.dto';
-import {SessionAuthGuard} from "../auth/guard/session.guard";
-import {FastifyReply,FastifyRequest} from "fastify";
-import {UserRequest} from "../auth/guard/expandedInterface.interface";
-import {generateExpirationDate} from "../common/Util/util.coockie";
+import { SessionAuthGuard } from '../auth/guard/session.guard';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { UserRequest } from '../auth/guard/expandedInterface.interface';
+import { generateExpirationDate } from '../common/Util/util.coockie';
 
 @Controller('users')
 export class UsersController {
@@ -32,27 +33,30 @@ export class UsersController {
   }
 
   @Post('/login')
-  async login(@Request() req:FastifyRequest,@Body() dto:RegisterDto, @Res() res:FastifyReply) {
-
+  async login(
+    @Request() req: FastifyRequest,
+    @Body() dto: RegisterDto,
+    @Res() res: FastifyReply,
+  ) {
     const user = await this.usersService.loginUser(dto);
 
     if (user) {
       res.setCookie('sessionId', user._id.toString(), {
         signed: true,
-        httpOnly: true
+        httpOnly: true,
       });
       res.setCookie('CookieExpir', generateExpirationDate().toString(), {
         signed: true,
-        httpOnly: true
+        httpOnly: true,
       });
     }
-   res.send(user)
+    res.send(user);
   }
 
   @UseGuards(SessionAuthGuard)
   @Post('/change-password')
   async changePassword(
-    @Request() req:UserRequest,
+    @Request() req: UserRequest,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
     const username = req.user.username;
@@ -65,15 +69,15 @@ export class UsersController {
 
   @UseGuards(SessionAuthGuard)
   @Get('/logout')
-  logout(@Request() req:FastifyRequest,@Res() res:FastifyReply) {
-    res.setCookie('sessionId', "null", {
+  logout(@Request() req: FastifyRequest, @Res() res: FastifyReply) {
+    res.setCookie('sessionId', 'null', {
       signed: true,
       httpOnly: true,
     });
-    res.setCookie('CookieExpir', "null", {
+    res.setCookie('CookieExpir', 'null', {
       signed: true,
-      httpOnly: true
+      httpOnly: true,
     });
-    res.send( { message: 'Logout user' });
+    res.send({ message: 'Logout user' });
   }
 }
