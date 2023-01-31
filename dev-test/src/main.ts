@@ -13,8 +13,7 @@ async function bootstrap() {
         new FastifyAdapter(),
     );
 
-    //@ts-ignore
-    await app.register(fastifyCookie, {
+    await app.register(fastifyCookie as any, {
         secret: process.env.SESSION_SECRET,
     });
 

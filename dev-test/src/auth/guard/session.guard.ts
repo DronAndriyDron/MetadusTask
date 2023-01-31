@@ -18,8 +18,6 @@ export class SessionAuthGuard implements CanActivate {
 
         const isExpired= checkExpireDate < new Date().getTime();
 
-        console.log("isExpired",isExpired)
-        console.log("isExpiredNow",new Date())
         const user = sessionId === "null" ?await this.userModel.findById(null):await this.userModel.findById(sessionId);
 
         if (user===null||!user||isExpired) {

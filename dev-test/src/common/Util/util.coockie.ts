@@ -1,3 +1,5 @@
+import {SESSION_EXPIRED} from "../constants/constants";
+
 export function generateExpirationDate() {
-    return Date.now() + 3600 * 1000;
+    return Date.now() +SESSION_EXPIRED;
 }
